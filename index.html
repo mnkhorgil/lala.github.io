@@ -1,49 +1,130 @@
-<!DOCTYPE HTML>
-<!--
-	Ethereal by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Hello Guys</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
-		<!-- Page Wrapper -->
-			<div id="page-wrapper">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Munkh-Orgil Portfolio</title>
 
-				<!-- Wrapper -->
-					<div id="wrapper">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 
-						<!-- Panel (Banner) -->
-							<section class="panel banner right">
-								<div class="content color0 span-3-75">
-									<h1 class="major"><br />My name is Munkh-Orgil, nice to meet you!</h1>
+    <!-- Custom Styles -->
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafb;
+            color: #111827;
+        }
 
-								</div>
-							</section>
-							<section class="panel banner right">
-								<div class="content color0 span-3-75">
-									<h1 class="major">
-										Coming Soon<br />
-									</h1>
-									<p>I am currently busy working on a major project. I plan to improve my profile when I have more free time.</p>
-									
-								</div>
-							</section>
-					</div>
+        /* Navbar */
+        .navbar {
+            background: #1F2937; /* Dark gray */
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-			</div>
+        .navbar .logo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: #10B981; /* Green accent */
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/main.js"></script>
+        .navbar .logo:hover {
+            color: #34D399;
+        }
 
-	</body>
+        .navbar .last-update {
+            font-size: 0.8rem;
+            color: #9CA3AF; /* subtle gray */
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 100px 20px 60px;
+            background: linear-gradient(to bottom, #E0F2FE, #FFFFFF);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 25px;
+            background-color: #10B981;
+            color: #fff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.2s;
+            cursor: not-allowed; /* Coming Soon */
+        }
+
+        .btn:hover {
+            background-color: #10B981; /* hover effect off since disabled */
+            transform: none;
+        }
+
+        /* Social Links */
+        .social-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-links img {
+            height: 30px;
+            transition: transform 0.3s;
+        }
+
+        .social-links img:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">Orgio</div>
+        <div class="last-update">Last Update: Dec 29, 2025</div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <h1>Hi, I am Munkh-Orgil</h1>
+        <p>Full-Stack Developer</p>
+        <p>Passionate about creating seamless digital experiences and turning ideas into reality.</p>
+        <a class="btn">Coming Soon</a>
+
+        <!-- Social Links -->
+        <div class="social-links">
+            <a href="https://www.instagram.com/munkh__orgil/" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram">
+            </a>
+            <a href="https://www.youtube.com/@lala_orgio" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" alt="YouTube">
+            </a>
+            <a href="https://www.linkedin.com/in/orgio2022/" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn">
+            </a>
+        </div>
+    </section>
+
+</body>
 </html>
