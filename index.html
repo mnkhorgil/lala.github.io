@@ -17,7 +17,11 @@
             <span class="file">orgio.dev — visual studio code</span>
             <span class="spacer"></span>
             <button class="ghost menu-btn" id="menuBtn" type="button">files</button>
-            <button class="ghost" id="langBtn" type="button">MN</button>
+            <div class="lang-switch" role="group" aria-label="Language">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 4 5.7 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.7-4-9s1.4-6.4 4-9z"/></svg>
+                <button type="button" data-lang="en">EN</button>
+                <button type="button" data-lang="mn">MN</button>
+            </div>
         </header>
 
         <div class="workspace">
@@ -71,15 +75,15 @@
                                 <p data-i18n="aboutBody">I am Munkh-Orgil, a full-stack developer focused on turning ideas into clear, usable products. I care about clean interfaces, reliable code, and shipping work that feels simple on the other side of the screen.</p>
                             </article>
                             <article class="card">
-                                <h3 data-i18n="skillsTitle">skills[]</h3>
-                                <div class="chips">
-                                    <span class="chip">HTML</span>
-                                    <span class="chip">CSS / SCSS</span>
-                                    <span class="chip">JavaScript</span>
-                                    <span class="chip">Git</span>
-                                    <span class="chip">GitHub Pages</span>
-                                    <span class="chip">Responsive UI</span>
-                                </div>
+                                <pre class="facts"><span class="c" data-i18n="aboutFacts">// quick facts</span>
+<span class="k">const</span> <span class="n">now</span> = {
+  <span class="f">role</span>: <span class="s">"Software Programmer"</span>,
+  <span class="f">company</span>: <span class="s">"Khan Bank"</span>,
+  <span class="f">location</span>: <span class="s">"Ulaanbaatar, Mongolia"</span>,
+  <span class="f">education</span>: <span class="s">"BSc Computer Science, NUM"</span>,
+  <span class="f">before</span>: <span class="s">"Game Developer"</span>,
+};</pre>
+                                <p style="margin-top:14px;"><a class="btn" href="#skills" data-i18n="aboutSkillsLink">open skills.json</a></p>
                             </article>
                         </div>
                     </section>
@@ -127,25 +131,31 @@
                     <section id="projects">
                         <p class="crumb">src / <b>projects.ts</b></p>
                         <h2 data-i18n="projTitle"># projects</h2>
-                        <p class="muted" style="margin-bottom:16px;" data-i18n="projLead">Public work from GitHub.</p>
-                        <div class="grid" style="grid-template-columns:repeat(3,1fr);">
-                            <article class="card">
-                                <h3>lala.github.io</h3>
-                                <p class="muted" style="font-family:'JetBrains Mono',monospace;font-size:11px;margin-bottom:8px;">repo · pages</p>
-                                <p data-i18n="p1">Personal portfolio site — this page. A public home for bio, experience, projects, and certificates.</p>
-                                <p style="margin-top:10px;"><a href="https://github.com/mnkhorgil/lala.github.io" target="_blank" rel="noopener">github →</a></p>
+                        <p class="muted" style="margin-bottom:16px;" data-i18n="projLead">Selected work.</p>
+                        <div class="grid projects-grid">
+                            <article class="card span-3">
+                                <h3>Khan Bank · DigiPay</h3>
+                                <p class="muted" style="font-family:'JetBrains Mono',monospace;font-size:11px;margin-bottom:8px;">work · khan bank apps</p>
+                                <p data-i18n="pKhan">Currently working on Khan Bank's apps, including the DigiPay app. Project details are internal and can't be shown here.</p>
+                                <div class="chips">
+                                    <span class="chip">Banking</span>
+                                    <span class="chip">Mobile</span>
+                                    <span class="chip" data-i18n="pConf">confidential</span>
+                                </div>
+                                <p style="margin-top:10px;"><a href="https://www.khanbank.com/personal/product/detail/personal-digi-pay-app/" target="_blank" rel="noopener" data-i18n="pKhanLink">DigiPay product page →</a></p>
                             </article>
-                            <article class="card">
-                                <h3>programming_root</h3>
-                                <p class="muted" style="font-family:'JetBrains Mono',monospace;font-size:11px;margin-bottom:8px;">repo · student</p>
-                                <p data-i18n="p2">Programming student repository used for practice and fundamentals.</p>
-                                <p style="margin-top:10px;"><a href="https://github.com/mnkhorgil/programming_root" target="_blank" rel="noopener">github →</a></p>
-                            </article>
-                            <article class="card">
-                                <h3>orgio</h3>
-                                <p class="muted" style="font-family:'JetBrains Mono',monospace;font-size:11px;margin-bottom:8px;">repo · brand</p>
-                                <p data-i18n="p3">Personal brand repository under the Orgio name.</p>
-                                <p style="margin-top:10px;"><a href="https://github.com/mnkhorgil/orgio" target="_blank" rel="noopener">github →</a></p>
+                            <article class="card span-3">
+                                <h3>Guyuk Metaverse</h3>
+                                <p class="muted" style="font-family:'JetBrains Mono',monospace;font-size:11px;margin-bottom:8px;">metaverse · android · ios · windows</p>
+                                <p data-i18n="p0">Guyuk metaverse, built with a team in Unreal Engine. Visitors can step into it at guyuk.mn and through the Android, iOS and Windows app.</p>
+                                <div class="chips">
+                                    <span class="chip">Unreal Engine</span>
+                                    <span class="chip">Metaverse</span>
+                                    <span class="chip">Android</span>
+                                    <span class="chip">iOS</span>
+                                    <span class="chip">Windows</span>
+                                </div>
+                                <p style="margin-top:10px;"><a href="https://www.guyuk.mn/en/index.html" target="_blank" rel="noopener">guyuk.mn →</a></p>
                             </article>
                         </div>
                     </section>
@@ -154,21 +164,7 @@
                         <p class="crumb">src / <b>certs.json</b></p>
                         <h2 data-i18n="certTitle"># certificates</h2>
                         <p class="muted" style="margin-bottom:16px;" data-i18n="certLead">Licenses and certificates from the LinkedIn profile.</p>
-                        <div class="codebox">
-                            <div class="ln">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12</div>
-                            <pre class="src">[
-  {
-    <span class="s">"name"</span>: <span class="s">"OWASP Mobile Top 10 in Android Learning Path"</span>,
-    <span class="s">"issuer"</span>: <span class="s">"SecureFlag"</span>,
-    <span class="s">"issued"</span>: <span class="s">"Sep 2026"</span>
-  },
-  {
-    <span class="s">"name"</span>: <span class="s">"Intermediate Secure Coding in Objective-C Learning Path"</span>,
-    <span class="s">"issuer"</span>: <span class="s">"SecureFlag"</span>,
-    <span class="s">"issued"</span>: <span class="s">"Sep 2026"</span>
-  }
-]</pre>
-                        </div>
+                        <div class="cert-grid" id="certGrid"></div>
                         <div class="hero-actions">
                             <a class="btn" href="https://www.linkedin.com/in/orgio2022/details/certifications/" target="_blank" rel="noopener">certs.json → linkedin</a>
                             <a class="btn" href="https://www.linkedin.com/in/orgio2022/details/experience/" target="_blank" rel="noopener">experience.yml → linkedin</a>
@@ -204,9 +200,10 @@
     <script src="lang/en.js"></script>
     <script src="lang/mn.js"></script>
     <script src="js/skills.js"></script>
+    <script src="js/certs.js"></script>
     <script>
         const copy = window.LANG;
-        const langBtn = document.getElementById("langBtn");
+        const langBtns = document.querySelectorAll("[data-lang]");
         const menuBtn = document.getElementById("menuBtn");
         const explorer = document.getElementById("explorer");
 
@@ -223,13 +220,15 @@
                 const key = el.getAttribute("data-i18n");
                 if (dict[key]) el.textContent = dict[key];
             });
-            langBtn.textContent = lang === "en" ? "MN" : "EN";
+            langBtns.forEach((b) => b.classList.toggle("on", b.dataset.lang === lang));
         }
 
-        langBtn.addEventListener("click", () => {
-            lang = lang === "en" ? "mn" : "en";
-            try { localStorage.setItem("lang", lang); } catch (e) {}
-            applyLang();
+        langBtns.forEach((b) => {
+            b.addEventListener("click", () => {
+                lang = b.dataset.lang;
+                try { localStorage.setItem("lang", lang); } catch (e) {}
+                applyLang();
+            });
         });
         menuBtn.addEventListener("click", () => explorer.classList.toggle("open"));
 
@@ -242,6 +241,45 @@
             certs: "certs.json",
             contact: "contact.sh"
         };
+        function renderCerts() {
+            const grid = document.getElementById("certGrid");
+            window.CERTS.forEach(([name, issuerKey, date, id]) => {
+                const issuer = CERT_ISSUERS[issuerKey];
+                const card = document.createElement("article");
+                card.className = "cert";
+
+                const head = document.createElement("div");
+                head.className = "cert-head";
+                const ico = document.createElement("span");
+                ico.className = "cert-ico " + issuer.cls;
+                ico.innerHTML = issuer.icon;
+                const meta = document.createElement("div");
+                const who = document.createElement("div");
+                who.className = "cert-issuer";
+                who.textContent = issuer.name;
+                const when = document.createElement("div");
+                when.className = "cert-date";
+                when.textContent = date;
+                meta.append(who, when);
+                head.append(ico, meta);
+
+                const title = document.createElement("p");
+                title.className = "cert-name";
+                title.textContent = name;
+
+                const link = document.createElement("a");
+                link.href = issuer.url(id);
+                link.target = "_blank";
+                link.rel = "noopener";
+                link.setAttribute("data-i18n", "certView");
+                link.textContent = "view credential →";
+
+                card.append(head, title, link);
+                grid.appendChild(card);
+            });
+        }
+        renderCerts();
+
         function renderSkills() {
             const grid = document.getElementById("skillsGrid");
             window.SKILLS.forEach((group) => {

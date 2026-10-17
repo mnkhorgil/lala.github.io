@@ -65,6 +65,31 @@ button { font-family: inherit; }
     font-size: 11px;
 }
 
+.lang-switch {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 2px;
+    border: 1px solid var(--overlay);
+    border-radius: 6px;
+    background: var(--bg-0);
+    color: var(--sky);
+}
+.lang-switch svg { margin: 0 4px 0 6px; flex: none; }
+.lang-switch button {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+}
+.lang-switch button:hover { background: var(--surface); }
+.lang-switch button.on { background: var(--blue); color: #1e1e2e; }
+
 .workspace {
     display: grid;
     grid-template-columns: 220px 1fr;
@@ -204,11 +229,20 @@ section.active { display: block; }
 .btn:hover { text-decoration: none; filter: brightness(1.1); }
 
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.projects-grid { grid-template-columns: repeat(6, 1fr); }
+.span-3 { grid-column: span 3; }
+.span-2 { grid-column: span 2; }
 .card {
     background: #181825;
     border: 1px solid var(--surface);
     border-radius: 8px;
     padding: 16px;
+}
+.card .facts {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12.5px;
+    line-height: 1.75;
+    overflow-x: auto;
 }
 .card h3 { font-family: "JetBrains Mono", monospace; font-size: 14px; margin-bottom: 8px; }
 .muted { color: #9399b2; }
@@ -267,6 +301,40 @@ h2 { font-size: 16px; margin-bottom: 10px; color: var(--sky); }
 .skill-ico img { width: 18px; height: 18px; object-fit: contain; display: block; }
 .skill-ico.ph { color: var(--muted); font-size: 11px; font-weight: 600; text-transform: uppercase; }
 
+.cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 10px;
+}
+.cert {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+    padding: 14px;
+    background: #181825;
+    border: 1px solid var(--surface);
+    border-radius: 8px;
+}
+.cert:hover { border-color: var(--overlay); }
+.cert-head { display: flex; align-items: center; gap: 10px; }
+.cert-ico {
+    width: 36px;
+    height: 36px;
+    flex: none;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: #11111b;
+}
+.cert-ico svg { width: 20px; height: 20px; }
+.cert-ico.sf { color: var(--green); }
+.cert-ico.ud { color: var(--mauve); }
+.cert-issuer { font-family: "JetBrains Mono", monospace; font-size: 12px; font-weight: 500; }
+.cert-date { font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--muted); }
+.cert-name { font-size: 14px; line-height: 1.4; flex: 1; }
+.cert a { font-family: "JetBrains Mono", monospace; font-size: 12px; }
+
 .job {
     display: grid;
     grid-template-columns: 120px 1fr;
@@ -322,6 +390,7 @@ h2 { font-size: 16px; margin-bottom: 10px; color: var(--sky); }
     .menu-btn { display: inline-flex; }
     .grid, .job, .grid[style] { grid-template-columns: 1fr !important; }
     .skill-list { grid-template-columns: repeat(2, 1fr); }
+    .span-3, .span-2 { grid-column: auto; }
     .pane { width: min(920px, calc(100% - 24px)); }
     .ide { position: relative; }
 }
