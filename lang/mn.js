@@ -19,5 +19,6 @@ window.LANG.mn = {
   certLead: "LinkedIn дээрх лиценз, сертификатууд.",
   contactTitle: "# холбоо",
   contactLead: "whoami && socials",
+  emptyMsg: "EXPLORER-оос file сонгоно уу",
   updated: "Ln 17, Col 1 · 2026.10.17"
 };

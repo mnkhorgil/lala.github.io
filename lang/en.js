@@ -19,5 +19,6 @@ window.LANG.en = {
   certLead: "Licenses and certificates from the LinkedIn profile.",
   contactTitle: "# connect",
   contactLead: "whoami && socials",
+  emptyMsg: "Open a file from EXPLORER",
   updated: "Ln 17, Col 1 · Oct 17, 2026"
 };

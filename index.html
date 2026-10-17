@@ -34,16 +34,10 @@
             </aside>
 
             <main class="editor">
-                <nav class="tabs" id="tabs">
-                    <a href="#home" class="active" data-tab="home.ts">home.ts</a>
-                    <a href="#about" data-tab="about.md">about.md</a>
-                    <a href="#experience" data-tab="experience.yml">experience.yml</a>
-                    <a href="#projects" data-tab="projects.ts">projects.ts</a>
-                    <a href="#certs" data-tab="certs.json">certs.json</a>
-                    <a href="#contact" data-tab="contact.sh">contact.sh</a>
-                </nav>
+                <nav class="tabs" id="tabs"></nav>
 
                 <div class="pane">
+                    <div class="empty" id="empty" data-i18n="emptyMsg">Open a file from EXPLORER</div>
                     <section id="home">
                         <p class="crumb">src / <b>home.ts</b></p>
                         <div class="codebox">
@@ -230,20 +224,84 @@
         });
         menuBtn.addEventListener("click", () => explorer.classList.toggle("open"));
 
-        function setActive(hash) {
-            const id = (hash || "#home").replace("#", "") || "home";
-            document.querySelectorAll(".tree a, .tabs a").forEach((a) => {
-                a.classList.toggle("active", a.getAttribute("href") === "#" + id);
+        const FILES = {
+            home: "home.ts",
+            about: "about.md",
+            experience: "experience.yml",
+            projects: "projects.ts",
+            certs: "certs.json",
+            contact: "contact.sh"
+        };
+        const tabsEl = document.getElementById("tabs");
+        const editor = document.querySelector(".editor");
+        const emptyEl = document.getElementById("empty");
+        let openFiles = ["home"];
+        let activeFile = "home";
+
+        function renderTabs() {
+            tabsEl.innerHTML = "";
+            openFiles.forEach((id) => {
+                const tab = document.createElement("div");
+                tab.className = "tab" + (id === activeFile ? " active" : "");
+                const name = document.createElement("span");
+                name.textContent = FILES[id];
+                const close = document.createElement("button");
+                close.type = "button";
+                close.className = "tab-close";
+                close.setAttribute("aria-label", "close " + FILES[id]);
+                close.textContent = "×";
+                close.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    closeFile(id);
+                });
+                tab.addEventListener("click", () => openFile(id));
+                tab.append(name, close);
+                tabsEl.appendChild(tab);
             });
         }
-        document.querySelectorAll(".tree a, .tabs a").forEach((a) => {
-            a.addEventListener("click", () => {
-                setActive(a.getAttribute("href"));
+
+        function render() {
+            document.querySelectorAll(".pane section").forEach((s) => {
+                s.classList.toggle("active", s.id === activeFile);
+            });
+            document.querySelectorAll(".tree a").forEach((a) => {
+                a.classList.toggle("active", a.dataset.file === activeFile);
+            });
+            emptyEl.classList.toggle("show", !activeFile);
+            renderTabs();
+            editor.scrollTop = 0;
+            try { history.replaceState(null, "", activeFile ? "#" + activeFile : location.pathname); } catch (e) {}
+        }
+
+        function openFile(id) {
+            if (!FILES[id]) id = "home";
+            if (!openFiles.includes(id)) openFiles.push(id);
+            activeFile = id;
+            render();
+        }
+
+        function closeFile(id) {
+            const i = openFiles.indexOf(id);
+            if (i === -1) return;
+            openFiles.splice(i, 1);
+            if (activeFile === id) activeFile = openFiles[i] || openFiles[i - 1] || null;
+            render();
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach((a) => {
+            a.dataset.file = a.getAttribute("href").slice(1);
+            a.addEventListener("click", (e) => {
+                e.preventDefault();
+                openFile(a.dataset.file);
                 explorer.classList.remove("open");
             });
         });
-        setActive(location.hash);
-        window.addEventListener("hashchange", () => setActive(location.hash));
+        window.addEventListener("hashchange", () => {
+            const id = location.hash.slice(1);
+            if (id) openFile(id);
+        });
+
+        openFile(location.hash.slice(1) || "home");
 
         applyLang();
     </script>
