@@ -373,24 +373,66 @@ h2 { font-size: 16px; margin-bottom: 10px; color: var(--sky); }
     font-weight: 600;
 }
 .statusbar span { opacity: 0.9; }
+
+/* desktop: mobile-only elements hidden */
 .menu-btn { display: none; }
+.brand { display: none; }
 
 @media (max-width: 860px) {
     .workspace { grid-template-columns: 1fr; }
+    .ide { position: relative; grid-template-rows: 54px minmax(0, 1fr) 26px; }
+
+    /* header */
+    .titlebar {
+        gap: 10px;
+        padding: 0 12px;
+        background: linear-gradient(180deg, var(--bg-1), var(--bg-0));
+        border-bottom: 1px solid var(--surface);
+    }
+    .dots, .titlebar .file { display: none; }
+
+    .menu-btn {
+        display: inline-grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        border-radius: 8px;
+        background: var(--surface);
+        border-color: var(--overlay);
+        color: var(--sky);
+    }
+
+    .brand { display: flex; align-items: center; min-width: 0; }
+    .brand-text { display: flex; flex-direction: column; line-height: 1.2; min-width: 0; }
+    .brand-name { font-size: 13px; font-weight: 700; color: var(--text); }
+    .brand-role {
+        font-size: 10px;
+        color: var(--green);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .lang-switch svg { display: none; }
+    .lang-switch button { padding: 5px 9px; }
+
+    /* sidebar */
     .explorer { display: none; }
     .explorer.open {
         display: block;
         position: absolute;
-        top: 38px;
+        top: 54px;
         left: 0;
         z-index: 8;
         width: min(260px, 86vw);
-        height: calc(100% - 64px);
+        height: calc(100% - 80px);
+        box-shadow: 8px 0 24px rgba(0, 0, 0, 0.5);
     }
-    .menu-btn { display: inline-flex; }
+
+    /* content */
     .grid, .job, .grid[style] { grid-template-columns: 1fr !important; }
     .skill-list { grid-template-columns: repeat(2, 1fr); }
     .span-3, .span-2 { grid-column: auto; }
     .pane { width: min(920px, calc(100% - 24px)); }
-    .ide { position: relative; }
 }
