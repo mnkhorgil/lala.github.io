@@ -3,128 +3,530 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lala</title>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
-
-    <!-- Custom Styles -->
+    <title>orgio.dev — Munkh-Orgil</title>
+    <meta name="description" content="Munkh-Orgil (Orgio) — full-stack developer. Bio, internships, projects, certificates.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #1e1e2e;
+            --bg-0: #11111b;
+            --bg-1: #181825;
+            --surface: #313244;
+            --text: #cdd6f4;
+            --muted: #6c7086;
+            --overlay: #45475a;
+            --green: #a6e3a1;
+            --blue: #89b4fa;
+            --mauve: #cba6f7;
+            --peach: #fab387;
+            --yellow: #f9e2af;
+            --red: #f38ba8;
+            --sky: #89dceb;
+            --comment: #6c7086;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
         body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background-color: #f9fafb;
-            color: #111827;
+            font-family: "IBM Plex Sans", system-ui, sans-serif;
+            background: var(--bg-0);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.55;
         }
+        code, .mono, .tree, .tabs, .titlebar, .statusbar, .ln, kbd {
+            font-family: "JetBrains Mono", ui-monospace, monospace;
+        }
+        a { color: var(--blue); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        button { font-family: inherit; }
 
-        /* Navbar */
-        .navbar {
-            background: #1F2937; /* Dark gray */
-            padding: 15px 20px;
+        .ide {
+            min-height: 100vh;
+            display: grid;
+            grid-template-rows: 38px 1fr 26px;
+        }
+        .titlebar {
+            background: var(--bg-1);
+            border-bottom: 1px solid #111;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 12px;
+            padding: 0 12px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+        .dots { display: flex; gap: 6px; }
+        .dots i { width: 10px; height: 10px; border-radius: 50%; display: block; }
+        .dots i:nth-child(1) { background: #f38ba8; }
+        .dots i:nth-child(2) { background: #f9e2af; }
+        .dots i:nth-child(3) { background: #a6e3a1; }
+        .titlebar .file { color: var(--text); }
+        .titlebar .spacer { flex: 1; }
+        .ghost {
+            background: transparent;
+            border: 1px solid var(--surface);
+            color: var(--text);
+            border-radius: 4px;
+            padding: 2px 8px;
+            cursor: pointer;
+            font-size: 11px;
         }
 
-        .navbar .logo {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-            font-size: 1.8rem;
-            color: #10B981; /* Green accent */
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            transition: color 0.3s;
+        .workspace {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            min-height: 0;
         }
-
-        .navbar .logo:hover {
-            color: #34D399;
+        .explorer {
+            background: var(--bg-1);
+            border-right: 1px solid #111;
+            padding: 12px 0;
+            font-size: 12px;
         }
-
-        .navbar .last-update {
-            font-size: 0.8rem;
-            color: #9CA3AF; /* subtle gray */
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 100px 20px 60px;
-            background: linear-gradient(to bottom, #E0F2FE, #FFFFFF);
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 15px;
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 25px;
-            background-color: #10B981;
-            color: #fff;
-            border-radius: 8px;
-            text-decoration: none;
+        .explorer h2 {
+            font-size: 10px;
+            letter-spacing: 0.14em;
+            color: var(--muted);
+            padding: 0 14px 8px;
             font-weight: 600;
-            transition: background 0.3s, transform 0.2s;
-            cursor: not-allowed; /* Coming Soon */
         }
-
-        .btn:hover {
-            background-color: #10B981; /* hover effect off since disabled */
-            transform: none;
-        }
-
-        /* Social Links */
-        .social-links {
-            margin-top: 20px;
+        .tree { list-style: none; }
+        .tree a {
             display: flex;
-            justify-content: center;
-            gap: 20px;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 14px;
+            color: var(--text);
+            text-decoration: none;
+        }
+        .tree a:hover, .tree a.active { background: var(--surface); }
+        .tree .ext { color: var(--blue); }
+        .tree .ext.md { color: var(--blue); }
+        .tree .ext.yml { color: var(--yellow); }
+        .tree .ext.ts { color: var(--blue); }
+        .tree .ext.json { color: var(--yellow); }
+        .tree .ext.sh { color: var(--green); }
+
+        .editor {
+            background: var(--bg);
+            overflow: auto;
+            min-width: 0;
+        }
+        .tabs {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            display: flex;
+            overflow-x: auto;
+            background: var(--bg-1);
+            border-bottom: 1px solid #111;
+            font-size: 12px;
+        }
+        .tabs a {
+            padding: 9px 14px;
+            color: var(--muted);
+            border-right: 1px solid #111;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+        .tabs a:hover { color: var(--text); }
+        .tabs a.active { background: var(--bg); color: var(--text); }
+
+        .pane { width: min(920px, calc(100% - 48px)); margin: 0 auto; padding: 28px 0 64px; }
+        section { scroll-margin-top: 44px; padding: 28px 0; }
+        .crumb { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+        .crumb b { color: var(--mauve); font-weight: 500; }
+
+        .codebox {
+            background: #181825;
+            border: 1px solid var(--surface);
+            border-radius: 8px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 40px 1fr;
+            font-size: 13.5px;
+            line-height: 1.7;
+        }
+        .ln {
+            background: #1e1e2e;
+            color: var(--muted);
+            text-align: right;
+            padding: 16px 8px;
+            user-select: none;
+        }
+        .src { padding: 16px 16px 16px 12px; overflow-x: auto; }
+        .k { color: var(--mauve); }
+        .s { color: var(--green); }
+        .n { color: var(--peach); }
+        .f { color: var(--blue); }
+        .c { color: var(--comment); }
+        .p { color: var(--text); }
+        .ty { color: var(--yellow); }
+
+        .hero-actions { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+        .btn {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 12px;
+            border: 1px solid var(--surface);
+            background: var(--surface);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+        .btn.primary { background: #313244; color: var(--green); border-color: #3e4054; }
+        .btn:hover { text-decoration: none; filter: brightness(1.1); }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .card {
+            background: #181825;
+            border: 1px solid var(--surface);
+            border-radius: 8px;
+            padding: 16px;
+        }
+        .card h3 { font-family: "JetBrains Mono", monospace; font-size: 14px; margin-bottom: 8px; }
+        .muted { color: #9399b2; }
+        h1, h2 { font-family: "JetBrains Mono", monospace; font-weight: 600; }
+        h2 { font-size: 16px; margin-bottom: 10px; color: var(--sky); }
+        .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+        .chip {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 11px;
+            border: 1px solid var(--surface);
+            color: var(--peach);
+            padding: 3px 8px;
+            border-radius: 4px;
         }
 
-        .social-links img {
-            height: 30px;
-            transition: transform 0.3s;
+        .job {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 12px;
+            border-left: 2px solid var(--overlay);
+            padding: 4px 0 16px 16px;
+        }
+        .job time { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--green); }
+
+        .term {
+            background: #11111b;
+            border: 1px solid var(--surface);
+            border-radius: 8px;
+            padding: 14px 16px;
+            font-size: 13px;
+        }
+        .term .prompt { color: var(--green); }
+        .socials { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+        .socials a {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 12px;
+            color: var(--text);
+            border: 1px solid var(--surface);
+            padding: 6px 10px;
+            border-radius: 4px;
         }
 
-        .social-links img:hover {
-            transform: scale(1.1);
+        .statusbar {
+            background: #89b4fa;
+            color: #1e1e2e;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0 10px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .statusbar span { opacity: 0.9; }
+        .menu-btn { display: none; }
+
+        @media (max-width: 860px) {
+            .workspace { grid-template-columns: 1fr; }
+            .explorer { display: none; }
+            .explorer.open {
+                display: block;
+                position: absolute;
+                z-index: 8;
+                width: min(260px, 86vw);
+                height: calc(100% - 64px);
+            }
+            .menu-btn { display: inline-flex; }
+            .grid, .job, .grid[style] { grid-template-columns: 1fr !important; }
+            .pane { width: min(920px, calc(100% - 24px)); }
+            .ide { position: relative; }
         }
     </style>
 </head>
 <body>
+    <div class="ide">
+        <header class="titlebar">
+            <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+            <span class="file">orgio.dev — visual studio code</span>
+            <span class="spacer"></span>
+            <button class="ghost menu-btn" id="menuBtn" type="button">files</button>
+            <button class="ghost" id="langBtn" type="button">MN</button>
+        </header>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="logo">Orgio</div>
-        <div class="last-update">Last Update: Dec 29, 2025</div>
-    </nav>
+        <div class="workspace">
+            <aside class="explorer" id="explorer">
+                <h2>EXPLORER</h2>
+                <ul class="tree">
+                    <li><a href="#home" class="active" data-tab="home.ts"><span class="ext ts">TS</span> home.ts</a></li>
+                    <li><a href="#about" data-tab="about.md"><span class="ext md">MD</span> about.md</a></li>
+                    <li><a href="#experience" data-tab="experience.yml"><span class="ext yml">YML</span> experience.yml</a></li>
+                    <li><a href="#projects" data-tab="projects.ts"><span class="ext ts">TS</span> projects.ts</a></li>
+                    <li><a href="#certs" data-tab="certs.json"><span class="ext json">JSON</span> certs.json</a></li>
+                    <li><a href="#contact" data-tab="contact.sh"><span class="ext sh">SH</span> contact.sh</a></li>
+                </ul>
+            </aside>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <h1>Hi, I am Munkh-Orgil</h1>
-        <p>Full-Stack Developer</p>
-        <p>Passionate about creating seamless digital experiences and turning ideas into reality.</p>
-        <a class="btn">Coming Soon</a>
+            <main class="editor">
+                <nav class="tabs" id="tabs">
+                    <a href="#home" class="active" data-tab="home.ts">home.ts</a>
+                    <a href="#about" data-tab="about.md">about.md</a>
+                    <a href="#experience" data-tab="experience.yml">experience.yml</a>
+                    <a href="#projects" data-tab="projects.ts">projects.ts</a>
+                    <a href="#certs" data-tab="certs.json">certs.json</a>
+                    <a href="#contact" data-tab="contact.sh">contact.sh</a>
+                </nav>
 
-        <!-- Social Links -->
-        <div class="social-links">
-            <a href="https://www.instagram.com/munkh__orgil/" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram">
-            </a>
-            <a href="https://www.youtube.com/@lala_orgio" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" alt="YouTube">
-            </a>
-            <a href="https://www.linkedin.com/in/orgio2022/" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn">
-            </a>
+                <div class="pane">
+                    <section id="home">
+                        <p class="crumb">src / <b>home.ts</b></p>
+                        <div class="codebox">
+                            <div class="ln">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11</div>
+                            <pre class="src"><span class="c">// orgio — full-stack developer</span>
+<span class="k">export const</span> <span class="n">dev</span> = {
+  <span class="f">name</span>: <span class="s">"Munkh-Orgil"</span>,
+  <span class="f">alias</span>: <span class="s">"Orgio"</span>,
+  <span class="f">role</span>: <span class="s">"Full-Stack Developer"</span>,
+  <span class="f">stack</span>: [<span class="s">"HTML"</span>, <span class="s">"CSS"</span>, <span class="s">"JavaScript"</span>, <span class="s">"Git"</span>],
+  <span class="f">github</span>: <span class="s">"mnkhorgil"</span>,
+};
+
+<span class="c" data-i18n="heroLead">// Passionate about creating seamless digital experiences.</span>
+<span class="k">export type</span> <span class="ty">Status</span> = <span class="s">"building"</span>;</pre>
+                        </div>
+                        <div class="hero-actions">
+                            <a class="btn primary" href="#projects" data-i18n="ctaWork">run projects.ts</a>
+                            <a class="btn" href="https://www.linkedin.com/in/orgio2022/" target="_blank" rel="noopener">open linkedin</a>
+                            <a class="btn" href="https://github.com/mnkhorgil" target="_blank" rel="noopener">open github</a>
+                        </div>
+                    </section>
+
+                    <section id="about">
+                        <p class="crumb">src / <b>about.md</b></p>
+                        <h2 data-i18n="aboutTitle"># about</h2>
+                        <div class="grid">
+                            <article class="card">
+                                <p class="c" style="font-family:'JetBrains Mono',monospace;font-size:12px;margin-bottom:8px;">&lt;!-- bio --&gt;</p>
+                                <p data-i18n="aboutBody">I am Munkh-Orgil, a full-stack developer focused on turning ideas into clear, usable products. I care about clean interfaces, reliable code, and shipping work that feels simple on the other side of the screen.</p>
+                            </article>
+                            <article class="card">
+                                <h3 data-i18n="skillsTitle">skills[]</h3>
+                                <div class="chips">
+                                    <span class="chip">HTML</span>
+                                    <span class="chip">CSS / SCSS</span>
+                                    <span class="chip">JavaScript</span>
+                                    <span class="chip">Git</span>
+                                    <span class="chip">GitHub Pages</span>
+                                    <span class="chip">Responsive UI</span>
+                                </div>
+                            </article>
+                        </div>
+                    </section>
+
+                    <section id="experience">
+                        <p class="crumb">src / <b>experience.yml</b></p>
+                        <h2 data-i18n="expTitle"># internship &amp; experience</h2>
+                        <p class="muted" style="margin-bottom:16px;" data-i18n="expLead">Roles and internships. LinkedIn is the live source of truth for dates and companies.</p>
+                        <article class="job">
+                            <time>2022 — now</time>
+                            <div>
+                                <h3 data-i18n="exp1Title">Full-Stack Developer</h3>
+                                <p class="muted" data-i18n="exp1Org">Independent · Orgio</p>
+                                <p data-i18n="exp1Body">Building personal products and this portfolio. Exploring full-stack web work, from layout and interaction to shipping on GitHub Pages.</p>
+                            </div>
+                        </article>
+                        <article class="job">
+                            <time data-i18n="exp2Time">Internship</time>
+                            <div>
+                                <h3 data-i18n="exp2Title">Internship details on LinkedIn</h3>
+                                <p class="muted">key: orgio2022</p>
+                                <p data-i18n="exp2Body">Company names, dates, and internship notes live on LinkedIn. Open the profile for the full timeline, then this section can be filled in exactly.</p>
+                                <p><a href="https://www.linkedin.com/in/orgio2022/" target="_blank" rel="noopener">linkedin.com/in/orgio2022</a></p>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section id="projects">
+                        <p class="crumb">src / <b>projects.ts</b></p>
+                        <h2 data-i18n="projTitle"># projects</h2>
+                        <p class="muted" style="margin-bottom:16px;" data-i18n="projLead">Public work from GitHub.</p>
+                        <div class="grid" style="grid-template-columns:repeat(3,1fr);">
+                            <article class="card">
+                                <h3>lala.github.io</h3>
+                                <p class="muted" style="font-family:'JetBrains Mono',monospace;font-size:11px;margin-bottom:8px;">repo · pages</p>
+                                <p data-i18n="p1">Personal portfolio site — this page. A public home for bio, internships, projects, and certificates.</p>
+                                <p style="margin-top:10px;"><a href="https://github.com/mnkhorgil/lala.github.io" target="_blank" rel="noopener">github →</a></p>
+                            </article>
+                            <article class="card">
+                                <h3>programming_root</h3>
+                                <p class="muted" style="font-family:'JetBrains Mono',monospace;font-size:11px;margin-bottom:8px;">repo · student</p>
+                                <p data-i18n="p2">Programming student repository used for practice and fundamentals.</p>
+                                <p style="margin-top:10px;"><a href="https://github.com/mnkhorgil/programming_root" target="_blank" rel="noopener">github →</a></p>
+                            </article>
+                            <article class="card">
+                                <h3>orgio</h3>
+                                <p class="muted" style="font-family:'JetBrains Mono',monospace;font-size:11px;margin-bottom:8px;">repo · brand</p>
+                                <p data-i18n="p3">Personal brand repository under the Orgio name.</p>
+                                <p style="margin-top:10px;"><a href="https://github.com/mnkhorgil/orgio" target="_blank" rel="noopener">github →</a></p>
+                            </article>
+                        </div>
+                    </section>
+
+                    <section id="certs">
+                        <p class="crumb">src / <b>certs.json</b></p>
+                        <h2 data-i18n="certTitle"># certificates</h2>
+                        <p class="muted" style="margin-bottom:16px;" data-i18n="certLead">Licenses and certificates from the LinkedIn profile.</p>
+                        <div class="codebox">
+                            <div class="ln">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11</div>
+                            <pre class="src">{
+  <span class="s">"licenses"</span>: {
+    <span class="s">"source"</span>: <span class="s">"linkedin.com/in/orgio2022"</span>,
+    <span class="s">"note"</span>: <span class="s" data-i18n="c1Body">"Certificate titles, issuers, and dates are on LinkedIn."</span>
+  },
+  <span class="s">"internships"</span>: {
+    <span class="s">"source"</span>: <span class="s">"linkedin experience tab"</span>,
+    <span class="s">"note"</span>: <span class="s" data-i18n="c2Body">"Company names and dates live on the profile."</span>
+  }
+}</pre>
+                        </div>
+                        <div class="hero-actions">
+                            <a class="btn" href="https://www.linkedin.com/in/orgio2022/details/certifications/" target="_blank" rel="noopener">certs.json → linkedin</a>
+                            <a class="btn" href="https://www.linkedin.com/in/orgio2022/details/experience/" target="_blank" rel="noopener">experience.yml → linkedin</a>
+                        </div>
+                    </section>
+
+                    <section id="contact">
+                        <p class="crumb">src / <b>contact.sh</b></p>
+                        <h2 data-i18n="contactTitle"># connect</h2>
+                        <div class="term">
+                            <div><span class="prompt">orgio@dev:~$</span> <span data-i18n="contactLead">whoami && socials</span></div>
+                            <div class="muted" style="margin-top:8px;">Munkh-Orgil / Orgio</div>
+                            <div class="socials">
+                                <a href="https://github.com/mnkhorgil" target="_blank" rel="noopener">github</a>
+                                <a href="https://www.linkedin.com/in/orgio2022/" target="_blank" rel="noopener">linkedin</a>
+                                <a href="https://www.instagram.com/munkh__orgil/" target="_blank" rel="noopener">instagram</a>
+                                <a href="https://www.youtube.com/@lala_orgio" target="_blank" rel="noopener">youtube</a>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
         </div>
-    </section>
 
+        <footer class="statusbar">
+            <span>main*</span>
+            <span>UTF-8</span>
+            <span>TypeScript</span>
+            <span data-i18n="updated">Ln 17, Col 1 · Oct 17, 2026</span>
+        </footer>
+    </div>
+
+    <script>
+        const copy = {
+            en: {
+                heroLead: "// Passionate about creating seamless digital experiences.",
+                ctaWork: "run projects.ts",
+                aboutTitle: "# about",
+                aboutBody: "I am Munkh-Orgil, a full-stack developer focused on turning ideas into clear, usable products. I care about clean interfaces, reliable code, and shipping work that feels simple on the other side of the screen.",
+                skillsTitle: "skills[]",
+                expTitle: "# internship & experience",
+                expLead: "Roles and internships. LinkedIn is the live source of truth for dates and companies.",
+                exp1Title: "Full-Stack Developer",
+                exp1Org: "Independent · Orgio",
+                exp1Body: "Building personal products and this portfolio. Exploring full-stack web work, from layout and interaction to shipping on GitHub Pages.",
+                exp2Time: "Internship",
+                exp2Title: "Internship details on LinkedIn",
+                exp2Body: "Company names, dates, and internship notes live on LinkedIn. Open the profile for the full timeline, then this section can be filled in exactly.",
+                projTitle: "# projects",
+                projLead: "Public work from GitHub.",
+                p1: "Personal portfolio site — this page. A public home for bio, internships, projects, and certificates.",
+                p2: "Programming student repository used for practice and fundamentals.",
+                p3: "Personal brand repository under the Orgio name.",
+                certTitle: "# certificates",
+                certLead: "Licenses and certificates from the LinkedIn profile.",
+                c1Body: "Certificate titles, issuers, and dates are on LinkedIn.",
+                c2Body: "Company names and dates live on the profile.",
+                contactTitle: "# connect",
+                contactLead: "whoami && socials",
+                updated: "Ln 17, Col 1 · Oct 17, 2026"
+            },
+            mn: {
+                heroLead: "// Санааг бодит бүтээгдэхүүн болгож, жигд туршлага бүтээнэ.",
+                ctaWork: "run projects.ts",
+                aboutTitle: "# намтар",
+                aboutBody: "Би Мөнх-Оргил. Full-stack хөгжүүлэгч. Цэвэр интерфейс, найдвартай код, хэрэглэхэд хялбар бүтээгдэхүүн гаргахыг чухалчилдаг.",
+                skillsTitle: "skills[]",
+                expTitle: "# internship & experience",
+                expLead: "Ажлын байр, internship-ийн дэлгэрэнгүй LinkedIn дээр байна.",
+                exp1Title: "Full-Stack Developer",
+                exp1Org: "Independent · Orgio",
+                exp1Body: "Хувийн бүтээгдэхүүн болон энэ portfolio дээр ажиллаж, full-stack вэб хөгжүүлэлтийг GitHub Pages хүртэл хүргэж байна.",
+                exp2Time: "Internship",
+                exp2Title: "Internship-ийн дэлгэрэнгүй LinkedIn дээр",
+                exp2Body: "Компани, огноо, internship-ийн тэмдэглэл LinkedIn дээр байна. Профайлыг нээгээд яг жагсаалтыг энд нэмж болно.",
+                projTitle: "# төслүүд",
+                projLead: "GitHub дээрх нийтийн ажлууд.",
+                p1: "Хувийн portfolio сайт — энэ хуудас. Намтар, internship, төсөл, сертификатыг энд харуулна.",
+                p2: "Програмчлалын суурь, дадлагад зориулсан student repository.",
+                p3: "Orgio нэрээр нээсэн хувийн брэндийн repository.",
+                certTitle: "# сертификат",
+                certLead: "LinkedIn дээрх лиценз, сертификатууд.",
+                c1Body: "Сертификатын нэр, олгосон байгууллага, огноо LinkedIn дээр.",
+                c2Body: "Компани, хугацаа профайлын experience хэсэгт.",
+                contactTitle: "# холбоо",
+                contactLead: "whoami && socials",
+                updated: "Ln 17, Col 1 · 2026.10.17"
+            }
+        };
+
+        const langBtn = document.getElementById("langBtn");
+        const menuBtn = document.getElementById("menuBtn");
+        const explorer = document.getElementById("explorer");
+        let lang = "en";
+
+        function applyLang() {
+            const dict = copy[lang];
+            document.documentElement.lang = lang;
+            document.querySelectorAll("[data-i18n]").forEach((el) => {
+                const key = el.getAttribute("data-i18n");
+                if (dict[key]) el.textContent = dict[key];
+            });
+            langBtn.textContent = lang === "en" ? "MN" : "EN";
+        }
+
+        langBtn.addEventListener("click", () => {
+            lang = lang === "en" ? "mn" : "en";
+            applyLang();
+        });
+        menuBtn.addEventListener("click", () => explorer.classList.toggle("open"));
+
+        function setActive(hash) {
+            const id = (hash || "#home").replace("#", "") || "home";
+            document.querySelectorAll(".tree a, .tabs a").forEach((a) => {
+                a.classList.toggle("active", a.getAttribute("href") === "#" + id);
+            });
+        }
+        document.querySelectorAll(".tree a, .tabs a").forEach((a) => {
+            a.addEventListener("click", () => {
+                setActive(a.getAttribute("href"));
+                explorer.classList.remove("open");
+            });
+        });
+        setActive(location.hash);
+        window.addEventListener("hashchange", () => setActive(location.hash));
+    </script>
 </body>
 </html>
