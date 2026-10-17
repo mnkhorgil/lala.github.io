@@ -16,7 +16,7 @@
     --comment: #6c7086;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; touch-action: manipulation; }
 body {
     font-family: "IBM Plex Sans", system-ui, sans-serif;
     background: var(--bg-0);
@@ -35,6 +35,7 @@ button { font-family: inherit; }
     height: 100vh;
     height: 100dvh;
     overflow: hidden;
+    overflow: clip;
     display: grid;
     grid-template-rows: 38px minmax(0, 1fr) 26px;
 }
