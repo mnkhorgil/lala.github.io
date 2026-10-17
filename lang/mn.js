@@ -19,7 +19,7 @@ window.LANG.mn = {
   pKhanLink: "DigiPay танилцуулга →",
   certTitle: "# сертификат",
   certView: "сертификат харах →",
-  certLead: "LinkedIn дээрх лиценз, сертификатууд.",
+  certLead: "сертификатууд",
   contactTitle: "# холбоо",
   contactLead: "whoami && socials",
   emptyMsg: "EXPLORER-оос file сонгоно уу",

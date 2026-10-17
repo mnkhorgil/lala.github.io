@@ -19,7 +19,7 @@ window.LANG.en = {
   pKhanLink: "DigiPay product page →",
   certTitle: "# certificates",
   certView: "view credential →",
-  certLead: "Licenses and certificates from the LinkedIn profile.",
+  certLead: "certificates",
   contactTitle: "# connect",
   contactLead: "whoami && socials",
   emptyMsg: "Open a file from EXPLORER",
