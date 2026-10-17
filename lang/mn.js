@@ -20,5 +20,15 @@ window.LANG.mn = {
   contactTitle: "# холбоо",
   contactLead: "whoami && socials",
   emptyMsg: "EXPLORER-оос file сонгоно уу",
+  skillsFileTitle: "# ур чадвар",
+  skillsLead: "Ажил, сургалт, сертификатаар дамжуулан ашигласан технологиуд.",
+  skLang: "// хэлнүүд",
+  skBackend: "// backend",
+  skFront: "// frontend ба mobile",
+  skData: "// өгөгдлийн сан ба хайлт",
+  skDevops: "// devops",
+  skTest: "// тест ба аюулгүй байдал",
+  skGame: "// тоглоом хөгжүүлэлт",
+  skPractice: "// арга барил ба хэрэгсэл",
   updated: "Ln 17, Col 1 · 2026.10.17"
 };

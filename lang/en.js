@@ -20,5 +20,15 @@ window.LANG.en = {
   contactTitle: "# connect",
   contactLead: "whoami && socials",
   emptyMsg: "Open a file from EXPLORER",
+  skillsFileTitle: "# skills",
+  skillsLead: "Technologies from my work, studies, and certificates.",
+  skLang: "// languages",
+  skBackend: "// backend",
+  skFront: "// frontend & mobile",
+  skData: "// databases & search",
+  skDevops: "// devops",
+  skTest: "// testing & security",
+  skGame: "// game development",
+  skPractice: "// practices & tools",
   updated: "Ln 17, Col 1 · Oct 17, 2026"
 };

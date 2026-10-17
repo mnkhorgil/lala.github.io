@@ -26,6 +26,7 @@
                 <ul class="tree">
                     <li><a href="#home" class="active" data-tab="home.ts"><span class="ext ts">TS</span> home.ts</a></li>
                     <li><a href="#about" data-tab="about.md"><span class="ext md">MD</span> about.md</a></li>
+                    <li><a href="#skills" data-tab="skills.json"><span class="ext json">JSON</span> skills.json</a></li>
                     <li><a href="#experience" data-tab="experience.yml"><span class="ext yml">YML</span> experience.yml</a></li>
                     <li><a href="#projects" data-tab="projects.ts"><span class="ext ts">TS</span> projects.ts</a></li>
                     <li><a href="#certs" data-tab="certs.json"><span class="ext json">JSON</span> certs.json</a></li>
@@ -81,6 +82,13 @@
                                 </div>
                             </article>
                         </div>
+                    </section>
+
+                    <section id="skills">
+                        <p class="crumb">src / <b>skills.json</b></p>
+                        <h2 data-i18n="skillsFileTitle"># skills</h2>
+                        <p class="muted" data-i18n="skillsLead">Technologies from my work, studies, and certificates.</p>
+                        <div id="skillsGrid"></div>
                     </section>
 
                     <section id="experience">
@@ -195,6 +203,7 @@
 
     <script src="lang/en.js"></script>
     <script src="lang/mn.js"></script>
+    <script src="js/skills.js"></script>
     <script>
         const copy = window.LANG;
         const langBtn = document.getElementById("langBtn");
@@ -227,11 +236,52 @@
         const FILES = {
             home: "home.ts",
             about: "about.md",
+            skills: "skills.json",
             experience: "experience.yml",
             projects: "projects.ts",
             certs: "certs.json",
             contact: "contact.sh"
         };
+        function renderSkills() {
+            const grid = document.getElementById("skillsGrid");
+            window.SKILLS.forEach((group) => {
+                const box = document.createElement("div");
+                box.className = "skill-group";
+                const title = document.createElement("h3");
+                title.setAttribute("data-i18n", group.key);
+                box.appendChild(title);
+                const list = document.createElement("div");
+                list.className = "skill-list";
+                group.items.forEach(([name, icon, tone]) => {
+                    const chip = document.createElement("div");
+                    chip.className = "skill";
+                    const ico = document.createElement("span");
+                    ico.className = "skill-ico" + (tone === "light" ? " light" : "");
+                    const placeholder = () => {
+                        ico.className = "skill-ico ph";
+                        ico.textContent = name.charAt(0);
+                    };
+                    if (icon) {
+                        const img = document.createElement("img");
+                        img.src = ICON_BASE + icon + ".svg";
+                        img.alt = "";
+                        img.loading = "lazy";
+                        img.addEventListener("error", () => { img.remove(); placeholder(); });
+                        ico.appendChild(img);
+                    } else {
+                        placeholder();
+                    }
+                    const label = document.createElement("span");
+                    label.textContent = name;
+                    chip.append(ico, label);
+                    list.appendChild(chip);
+                });
+                box.appendChild(list);
+                grid.appendChild(box);
+            });
+        }
+        renderSkills();
+
         const tabsEl = document.getElementById("tabs");
         const editor = document.querySelector(".editor");
         const emptyEl = document.getElementById("empty");
