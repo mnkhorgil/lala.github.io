@@ -32,7 +32,7 @@
                 </div>
             </div>
 
-            <span class="file" aria-label="Orgio — Full-Stack Developer"><span id="typed" aria-hidden="true"></span><span class="caret" aria-hidden="true"></span></span>
+            <span class="file" aria-label="orgio.dev — Full-Stack Developer"><span id="typed" aria-hidden="true"></span><span class="caret" aria-hidden="true"></span></span>
             <span class="spacer"></span>
 
             <div class="lang-switch" role="group" aria-label="Language">
@@ -55,6 +55,7 @@
                     <li><a href="#contact" data-tab="contact.sh"><span class="ext sh">SH</span> contact.sh</a></li>
                 </ul>
             </aside>
+            <div class="backdrop" id="backdrop"></div>
 
             <main class="editor">
                 <nav class="tabs" id="tabs"></nav>
@@ -249,7 +250,14 @@
                 applyLang();
             });
         });
-        menuBtn.addEventListener("click", () => explorer.classList.toggle("open"));
+        const backdrop = document.getElementById("backdrop");
+        function setExplorer(open) {
+            explorer.classList.toggle("open", open);
+            backdrop.classList.toggle("show", open);
+        }
+        menuBtn.addEventListener("click", () => setExplorer(!explorer.classList.contains("open")));
+        backdrop.addEventListener("click", () => setExplorer(false));
+        document.addEventListener("keydown", (e) => { if (e.key === "Escape") setExplorer(false); });
 
         const FILES = {
             home: "home.ts",
@@ -400,7 +408,7 @@
             a.addEventListener("click", (e) => {
                 e.preventDefault();
                 openFile(a.dataset.file);
-                explorer.classList.remove("open");
+                setExplorer(false);
             });
         });
         window.addEventListener("hashchange", () => {
