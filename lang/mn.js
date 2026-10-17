@@ -1,0 +1,23 @@
+window.LANG = window.LANG || {};
+window.LANG.mn = {
+  heroLead: "// Санааг бодит бүтээгдэхүүн болгож, жигд туршлага бүтээнэ.",
+  ctaWork: "run projects.ts",
+  aboutTitle: "# намтар",
+  aboutBody: "Би Мөнх-Оргил. Full-stack хөгжүүлэгч. Цэвэр интерфейс, найдвартай код, хэрэглэхэд хялбар бүтээгдэхүүн гаргахыг чухалчилдаг.",
+  skillsTitle: "skills[]",
+  expTitle: "# туршлага",
+  expLead: "Ажлын туршлага, боловсрол.",
+  exp1Body: "Банкны орчинд Java, PostgreSQL ашиглан backend хөгжүүлэлт хийдэг.",
+  exp2Body: "Unreal Engine 5, Blueprints, C++ ашиглан тоглоом болон интерактив бүтээгдэхүүн хөгжүүлсэн: тоглоомын логик, AI, multiplayer. Алдаа засах, code review хийх, дизайнер, зураачидтай хамтарч ажилласан.",
+  eduBody: "Компьютер графикс ба мультимедиа лаборатори.",
+  projTitle: "# төслүүд",
+  projLead: "GitHub дээрх нийтийн ажлууд.",
+  p1: "Хувийн portfolio сайт — энэ хуудас. Намтар, туршлага, төсөл, сертификатыг энд харуулна.",
+  p2: "Програмчлалын суурь, дадлагад зориулсан student repository.",
+  p3: "Orgio нэрээр нээсэн хувийн брэндийн repository.",
+  certTitle: "# сертификат",
+  certLead: "LinkedIn дээрх лиценз, сертификатууд.",
+  contactTitle: "# холбоо",
+  contactLead: "whoami && socials",
+  updated: "Ln 17, Col 1 · 2026.10.17"
+};
