@@ -17,6 +17,61 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <div id="intro" aria-hidden="true">
+        <svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="deskG" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#313244"/>
+                    <stop offset="1" stop-color="#181825"/>
+                </linearGradient>
+                <radialGradient id="glowG" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0" stop-color="#89b4fa" stop-opacity="0.28"/>
+                    <stop offset="1" stop-color="#89b4fa" stop-opacity="0"/>
+                </radialGradient>
+            </defs>
+            <rect width="800" height="500" fill="#0b0b13"/>
+            <rect y="340" width="800" height="160" fill="url(#deskG)"/>
+            <rect y="338" width="800" height="3" fill="#45475a"/>
+            <ellipse cx="400" cy="200" rx="330" ry="210" fill="url(#glowG)"/>
+
+            <!-- lamp -->
+            <ellipse cx="120" cy="404" rx="34" ry="7" fill="#11111b"/>
+            <path d="M120 400 L140 320 L200 285" fill="none" stroke="#6c7086" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M190 276 L226 292 L208 312 Z" fill="#fab387"/>
+
+            <!-- monitor -->
+            <rect x="385" y="300" width="30" height="40" fill="#45475a"/>
+            <rect x="340" y="335" width="120" height="8" rx="4" fill="#585b70"/>
+            <rect x="210" y="70" width="380" height="235" rx="12" fill="#181825" stroke="#45475a" stroke-width="2"/>
+            <rect id="introScreen" x="224" y="84" width="352" height="207" rx="4" fill="#1e1e2e"/>
+            <rect x="224" y="84" width="352" height="16" fill="#181825"/>
+            <circle cx="236" cy="92" r="3" fill="#f38ba8"/>
+            <circle cx="246" cy="92" r="3" fill="#f9e2af"/>
+            <circle cx="256" cy="92" r="3" fill="#a6e3a1"/>
+            <g class="lines">
+                <rect class="cl" x="240" y="118" width="120" height="7" rx="3" fill="#cba6f7" style="animation-delay:.9s"/>
+                <rect class="cl" x="254" y="138" width="200" height="7" rx="3" fill="#a6e3a1" style="animation-delay:1.2s"/>
+                <rect class="cl" x="254" y="158" width="150" height="7" rx="3" fill="#89b4fa" style="animation-delay:1.5s"/>
+                <rect class="cl" x="254" y="178" width="230" height="7" rx="3" fill="#fab387" style="animation-delay:1.8s"/>
+                <rect class="cl" x="240" y="198" width="70" height="7" rx="3" fill="#cba6f7" style="animation-delay:2.1s"/>
+                <rect class="cl" x="240" y="228" width="170" height="7" rx="3" fill="#89dceb" style="animation-delay:2.3s"/>
+            </g>
+
+            <!-- keyboard -->
+            <rect x="270" y="375" width="260" height="38" rx="6" fill="#313244"/>
+            <g stroke="#45475a" stroke-width="6" stroke-dasharray="12 4">
+                <line x1="282" y1="386" x2="518" y2="386"/>
+                <line x1="282" y1="397" x2="518" y2="397"/>
+                <line x1="282" y1="406" x2="518" y2="406"/>
+            </g>
+
+            <!-- mug -->
+            <rect x="590" y="362" width="34" height="38" rx="5" fill="#fab387"/>
+            <path d="M624 372 q14 0 14 12 q0 10 -14 10" fill="none" stroke="#fab387" stroke-width="5"/>
+        </svg>
+        <button type="button" class="intro-skip" id="introSkip">skip</button>
+    </div>
+
     <div class="ide">
         <header class="titlebar">
             <button class="ghost menu-btn" id="menuBtn" type="button" aria-label="Files">
@@ -222,6 +277,53 @@
     <script src="js/skills.js"></script>
     <script src="js/certs.js"></script>
     <script>
+        // intro: desk + computer, zoom into the screen, then reveal the site
+        const INTRO_ON = (function () {
+            const intro = document.getElementById("intro");
+            if (!intro) return false;
+            let seen = false;
+            try { seen = sessionStorage.getItem("introSeen") === "1"; } catch (e) {}
+            // reduce-motion is on by default on many Windows/Android/iOS devices:
+            // still show the scene, but without the zoom animation
+            const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            if (/[?&]intro\b/.test(location.search)) seen = false; // yoursite/?intro replays it
+            if (seen) { intro.remove(); return false; }
+            if (reduce) intro.classList.add("reduce");
+            try { sessionStorage.setItem("introSeen", "1"); } catch (e) {}
+
+            const svg = intro.querySelector("svg");
+            // phones: crop the scene around the monitor so the computer is bigger
+            if (window.innerWidth < 700) svg.setAttribute("viewBox", "150 40 500 400");
+            const screenEl = document.getElementById("introScreen");
+            let done = false;
+            const timers = [];
+
+            function finish() {
+                if (done) return;
+                done = true;
+                timers.forEach(clearTimeout);
+                intro.classList.add("hide");
+                setTimeout(() => intro.remove(), 700);
+            }
+            function zoom() {
+                const r = screenEl.getBoundingClientRect();
+                const vw = window.innerWidth, vh = window.innerHeight;
+                const s = Math.max(vw / r.width, vh / r.height) * 1.08;
+                const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+                svg.style.transform = "translate(" + (vw / 2 - s * cx) + "px," + (vh / 2 - s * cy) + "px) scale(" + s + ")";
+            }
+
+            if (!reduce) {
+                timers.push(setTimeout(() => { try { zoom(); } catch (e) { finish(); } }, 2900));
+                timers.push(setTimeout(finish, 4200));
+            } else {
+                timers.push(setTimeout(finish, 2600));
+            }
+            setTimeout(finish, 7000); // failsafe: never block the site
+            document.getElementById("introSkip").addEventListener("click", finish);
+            return true;
+        })();
+
         const copy = window.LANG;
         const langBtns = document.querySelectorAll("[data-lang]");
         const menuBtn = document.getElementById("menuBtn");
@@ -357,7 +459,8 @@
         ["gesturestart", "gesturechange", "gestureend"].forEach((ev) => {
             document.addEventListener(ev, (e) => e.preventDefault());
         });
-        
+
+        // block double-tap zoom (iOS fallback)
         let lastTouchEnd = 0;
         document.addEventListener("touchend", (e) => {
             const now = Date.now();
@@ -458,8 +561,9 @@
                 setTimeout(tick, delay);
             }
             // desktop: titlebar text, mobile: role line under the brand
-            type("typed", "orgio.dev — Full-Stack Developer", 400);
-            type("typedRole", "Full-Stack Developer", 400);
+            const startAt = INTRO_ON ? 4700 : 400;
+            type("typed", "orgio.dev — Full-Stack Developer", startAt);
+            type("typedRole", "Full-Stack Developer", startAt);
         })();
     </script>
 </body>
