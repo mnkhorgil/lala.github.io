@@ -24,7 +24,15 @@
             </button>
 
             <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
-            <span class="file">Munkh-Orgil's portfolio</span>
+
+            <div class="brand">
+                <div class="brand-text">
+                    <span class="brand-name">&lt;Orgio /&gt;</span>
+                    <span class="brand-role" aria-label="Full-Stack Developer"><span id="typedRole" aria-hidden="true"></span><span class="caret" aria-hidden="true"></span></span>
+                </div>
+            </div>
+
+            <span class="file" aria-label="Orgio — Full-Stack Developer"><span id="typed" aria-hidden="true"></span><span class="caret" aria-hidden="true"></span></span>
             <span class="spacer"></span>
 
             <div class="lang-switch" role="group" aria-label="Language">
@@ -403,6 +411,25 @@
         openFile(location.hash.slice(1) || "home");
 
         applyLang();
+
+        // typewriter effect in titlebar
+        (function () {
+            const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            function type(id, text, delay) {
+                const el = document.getElementById(id);
+                if (!el) return;
+                if (reduce) { el.textContent = text; return; }
+                let i = 0;
+                function tick() {
+                    el.textContent = text.slice(0, ++i);
+                    if (i < text.length) setTimeout(tick, 70 + Math.random() * 60);
+                }
+                setTimeout(tick, delay);
+            }
+            // desktop: titlebar text, mobile: role line under the brand
+            type("typed", "orgio.dev — Full-Stack Developer", 400);
+            type("typedRole", "Full-Stack Developer", 400);
+        })();
     </script>
 </body>
 </html>
